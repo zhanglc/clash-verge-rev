@@ -1,4 +1,3 @@
-// #[cfg(any(target_os = "linux", target_os = "macos"))]
 use crate::model::E;
 use http_body_util::{BodyExt, Full};
 use hyper::{
@@ -30,12 +29,12 @@ impl UnixClient {
 
     pub async fn send_request(
         &self,
-        socket_path: &str,
+        socket_path: String,
         path: &str,
         method: Method,
         body: Option<Value>,
     ) -> Result<Value, E> {
-        let uri = self.generate_unix_path(socket_path, path).await;
+        let uri = self.generate_unix_path(socket_path.as_str(), path).await;
 
         let mut request_builder = Request::builder().method(method).uri(uri);
 
