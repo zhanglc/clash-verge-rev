@@ -46,3 +46,4 @@ pub use model::E;
 pub use model::MihomoData;
 pub use model::MihomoManager;
 pub mod sock;
+pub mod platform;

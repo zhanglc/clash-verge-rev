@@ -1,8 +1,5 @@
 use async_trait::async_trait;
-use http_body_util::Full;
-use hyper::{Method, body::Bytes};
-use hyper_util::client::legacy::Client;
-use hyperlocal::{UnixConnector, Uri};
+use hyper::Method;
 use serde_json::Value;
 use std::{error::Error, sync::Arc};
 use tokio::sync::Mutex;
@@ -29,13 +26,14 @@ pub trait MihomoClient: Sized {
     async fn set_data_providers_proxies(&self, data: Value);
     async fn get_data_proxies(&self) -> Value;
     async fn get_data_providers_proxies(&self) -> Value;
-    async fn generate_unix_path(&self, path: &str) -> Uri;
+    // async fn generate_unix_path(&self, path: &str) -> Uri;
     async fn send_request(
         &self,
         path: &str,
         method: Method,
         body: Option<Value>,
     ) -> Result<Value, E>;
+    async fn get_version(&self) -> Result<Value, E>;
     async fn is_mihomo_running(&self) -> Result<(), E>;
     async fn put_configs_force(&self, clash_config_path: &str) -> Result<(), E>;
     async fn patch_configs(&self, config: Value) -> Result<(), E>;
@@ -51,8 +49,9 @@ pub trait MihomoClient: Sized {
     ) -> Result<Value, E>;
 }
 
+use crate::platform::Client;
 pub struct MihomoManager {
     pub(super) socket_path: String,
-    pub(super) client: Arc<Mutex<Client<UnixConnector, Full<Bytes>>>>,
+    pub(super) client: Arc<Mutex<Client>>,
     pub(super) data: Arc<Mutex<MihomoData>>,
 }

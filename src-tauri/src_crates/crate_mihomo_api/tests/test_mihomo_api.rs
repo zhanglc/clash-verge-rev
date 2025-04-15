@@ -4,12 +4,12 @@ use std::env;
 
 lazy_static::lazy_static! {
     static ref LOCAL_SOCK: String = {
-            // 加载 .env 文件
             dotenv().ok();
 
-            // 从 .env 或系统环境变量读取
             env::var("LOCAL_SOCK")
-                .expect("LOCAL_SOCK must be set in .env or environment variables")
+            .expect("LOCAL_SOCK must be set in .env or environment variables")
+            .trim_matches('"')
+            .to_string()
         };
 }
 
@@ -25,6 +25,16 @@ async fn test_mihomo_manager_init() {
     let providers = manager.get_data_providers_proxies().await;
     assert_eq!(proxies, serde_json::Value::Null);
     assert_eq!(providers, serde_json::Value::Null);
+}
+
+#[tokio::test]
+async fn test_get_version() {
+    let manager = mihomo_api::MihomoManager::new(LOCAL_SOCK.to_string());
+    let version = manager.get_version().await;
+    assert!(version.is_ok());
+    if let Ok(version) = version {
+        assert!(!version.get("version").is_none());
+    }
 }
 
 #[tokio::test]
