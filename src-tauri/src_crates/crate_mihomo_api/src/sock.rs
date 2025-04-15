@@ -1,10 +1,9 @@
-use crate::model::E;
+use crate::{model::E, platform::Client};
 use async_trait::async_trait;
 use hyper::Method;
 use serde_json::Value;
 use std::sync::Arc;
 use tokio::sync::Mutex;
-use crate::platform::Client;
 
 use crate::{
     MihomoData,
@@ -47,7 +46,9 @@ impl MihomoClient for MihomoManager {
         body: Option<Value>,
     ) -> Result<Value, E> {
         let client = self.client.lock().await;
-        client.send_request(self.socket_path.clone(), path, method, body).await
+        client
+            .send_request(self.socket_path.clone(), path, method, body)
+            .await
     }
 
     async fn get_version(&self) -> Result<Value, E> {
@@ -96,7 +97,7 @@ impl MihomoClient for MihomoManager {
         Ok(data)
     }
 
-    async fn delete_connections(&self, id: &str) -> Result<(), E> {
+    async fn delete_connection(&self, id: &str) -> Result<(), E> {
         let _ = self
             .send_request(&format!("/connections/{}", id), Method::DELETE, None)
             .await?;

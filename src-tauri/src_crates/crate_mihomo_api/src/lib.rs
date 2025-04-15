@@ -42,8 +42,7 @@
 // }
 
 pub mod model;
-pub use model::E;
-pub use model::MihomoData;
-pub use model::MihomoManager;
-pub mod sock;
+pub use model::{E, MihomoData, MihomoManager};
 pub mod platform;
+pub mod sock;
+pub use platform::Client;

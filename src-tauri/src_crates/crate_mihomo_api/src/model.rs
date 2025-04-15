@@ -40,7 +40,7 @@ pub trait MihomoClient: Sized {
     async fn refresh_proxies(&self) -> Result<&Self, E>;
     async fn refresh_providers_proxies(&self) -> Result<&Self, E>;
     async fn get_connections(&self) -> Result<Value, E>;
-    async fn delete_connections(&self, id: &str) -> Result<(), E>;
+    async fn delete_connection(&self, id: &str) -> Result<(), E>;
     async fn test_proxy_delay(
         &self,
         name: &str,
