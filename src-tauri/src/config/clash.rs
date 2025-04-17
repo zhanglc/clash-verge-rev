@@ -214,7 +214,7 @@ impl IClashTemp {
             .and_then(|value| match value.as_str() {
                 Some(val_str) => {
                     let val_str = val_str.trim();
-                    
+
                     if val_str.is_empty() {
                         return None;
                     }
@@ -238,7 +238,7 @@ impl IClashTemp {
         if value.is_empty() {
             return value;
         }
-        
+
         match SocketAddr::from_str(value.as_str()) {
             Ok(mut socket) => {
                 if socket.ip().is_unspecified() {
@@ -297,10 +297,7 @@ fn test_clash_info() {
         get_result(8888, "127.0.0.1:8888")
     );
 
-    assert_eq!(
-        get_case(8888, "   :98888 "),
-        get_result(8888, "")
-    );
+    assert_eq!(get_case(8888, "   :98888 "), get_result(8888, ""));
 
     assert_eq!(
         get_case(8888, "0.0.0.0:8080  "),
@@ -322,10 +319,7 @@ fn test_clash_info() {
         get_result(8888, "192.168.1.1:8080")
     );
 
-    assert_eq!(
-        get_case(8888, "192.168.1.1:80800"),
-        get_result(8888, "")
-    );
+    assert_eq!(get_case(8888, "192.168.1.1:80800"), get_result(8888, ""));
 }
 
 #[derive(Default, Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
