@@ -59,7 +59,7 @@ async function resolvePortable() {
   const packageJson = require("../package.json");
   const { version } = packageJson;
 
-  const zipFile = `Clash.Verge_${version}_${arch}_fixed_webview2_portable.zip`;
+  const zipFile = `Truman_${version}_${arch}_fixed_webview2_portable.zip`;
   zip.writeZip(zipFile);
 
   console.log("[INFO]: create portable zip successfully");
